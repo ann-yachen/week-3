@@ -1,0 +1,103 @@
+body{
+    margin: 0px;
+    font-size: 20px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+header{
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo{
+    padding: 10px;
+    font-weight: bold;
+}
+nav{
+    display: flex;
+}
+.nav-item{
+    display: block;
+    padding: 10px;
+}
+/* hamburger menu for mobile */
+.nav-icon{
+    display: none;
+}
+.welcome{
+    height: 300px;
+    background-color: #ddcfc2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem; /* double-sizing by root */ 
+    font-weight: bold;
+}
+.content{
+    width: 1200px;
+    margin: auto; margin-top: 15px;
+}
+.content-top{
+    display: flex;
+    flex-wrap: wrap; /* to multiple lines */
+    justify-content: center;
+}
+.content-bottom{
+    display: flex;
+    flex-wrap: wrap; /* to multiple lines */
+    justify-content: center;
+}
+.top-box{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    width: 48%; margin: 1%;
+    background-color: #ddcfc2;
+    overflow: hidden; /* hid the element which out of container */
+}
+.bottom-box{
+    width: 23%; margin: 1%;
+    background-color: #ddcfc2;
+    text-align: center;
+}
+/* for object-fit */
+img{
+    width: 100%;
+    height: 200px;
+}
+.bottom-box-img{
+    object-fit: cover;
+}
+.box-title{
+    margin: 10px;
+}
+
+/* CSS media query */
+/* 600px < size <= 1200px */ 
+@media screen and (max-width: 1200px){
+    .content{
+        width: 90%;
+    }
+    .bottom-box{
+        width: 48%; margin: 1%;
+    }
+}
+/* size <= 600px */ 
+@media screen and (max-width: 600px){
+    .content{
+        width: 90%;
+    }
+    .top-box{
+        width: 98%; margin: 1%;
+    }
+    .bottom-box{
+        width: 98%; margin: 1%;
+    }
+    /* change to hamburger menu */
+    .nav-icon{
+        display: block;
+    }
+    .nav-item{
+        display: none;
+    }
+
+}

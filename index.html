@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment: Week-3</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">My Website</div>
+        <nav>
+            <div class="nav-icon"><img src="icon_small.png" /></div>
+            <div class="nav-item">Item1</div>
+            <div class="nav-item">Item2</div>
+            <div class="nav-item">Item3</div>
+            <div class="nav-item">Item4</div>
+        </nav>  
+    </header>
+    <div class="welcome">
+        <div>Welcome to MyHome</div>
+    </div>
+    <main>
+        <div class="content">
+            <div class="content-top" id="content_top">
+                <!-- generate by js -->
+            </div>
+            <div class="content-bottom" id="content_bottom">
+                <!-- generate by js -->
+            </div>
+        </div>
+    </main>
+    <script>
+        /* get json */
+        let src="https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment.json";
+        /* Promise */
+        fetch(src).then(function(response){
+            return response.json();
+        }).then(function(data){
+            let attractionList = data["result"]["results"]; // get attraction list
+            
+            /* function for getting 1st img url from "file" */
+            function getFirstFile(fileData){
+                let fileList = fileData["file"].split("https");
+                let firstFile = "https" + fileList[1];
+                return firstFile;
+            }
+
+            /* generate top content */
+            let content_top = document.querySelector("#content_top"); // select id for top content 
+            /* only 1st and 2nd content need to be added */
+            for(let i = 0; i < 2; i++){
+                /* create box, class="top-box" */
+                let boxElement = document.createElement("div");
+                boxElement.className = "top-box";
+
+                /* create img in box */
+                let boxImg = document.createElement("img");
+                boxImg.src = getFirstFile(attractionList[i]); // get img url from json
+                boxImg.style.width = 80+"px";
+                boxElement.appendChild(boxImg); // append img into box
+                
+                /* create box title, class="box-title" */                
+                let boxTitle = document.createElement("div");
+                boxTitle.textContent = attractionList[i]["stitle"]; // get title from json
+                boxTitle.className = "box-title";
+                boxElement.appendChild(boxTitle); // append title into box
+                
+                /* add box into top content */ 
+                content_top.appendChild(boxElement);
+            }
+
+            /* generate bottom content */
+            let content_bottom = document.querySelector("#content_bottom"); // select id for bottom content
+            /* add content from 3rd to 10th */
+            for(let i = 2; i < 10; i++){
+                /* create box, class="bottom-box" */
+                let boxElement = document.createElement("div");
+                boxElement.className = "bottom-box";
+
+                /* create img in box, class = "bottom-box-img" for object-fit */
+                let boxImg = document.createElement("img");
+                boxImg.src = getFirstFile(attractionList[i]); // get img url from json
+                boxImg.className = "bottom-box-img";
+                boxElement.appendChild(boxImg); // append img into box
+
+                /* create box title, class="box-title" */ 
+                let boxTitle = document.createElement("div");
+                boxTitle.textContent = attractionList[i]["stitle"]; // get title from json
+                boxTitle.className = "box-title";
+                boxElement.appendChild(boxTitle); // append title into box
+
+                /* add box into bottom content */ 
+                content_bottom.appendChild(boxElement);
+            }            
+        })
+    </script>
+</body>
+</html>
