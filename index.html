@@ -42,8 +42,8 @@
             
             /* function for getting 1st img url from "file" */
             function getFirstFile(fileData){
-                let fileList = fileData["file"].split("https");
-                let firstFile = "https" + fileList[1];
+                let fileList = fileData["file"].split("https://");
+                let firstFile = "https://" + fileList[1];
                 return firstFile;
             }
 
@@ -58,9 +58,9 @@
                 /* create img in box */
                 let boxImg = document.createElement("img");
                 boxImg.src = getFirstFile(attractionList[i]); // get img url from json
-                boxImg.style.width = 80+"px";
+                boxImg.className = "top-box-img";                
                 boxElement.appendChild(boxImg); // append img into box
-                
+
                 /* create box title, class="box-title" */                
                 let boxTitle = document.createElement("div");
                 boxTitle.textContent = attractionList[i]["stitle"]; // get title from json

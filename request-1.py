@@ -1,3 +1,6 @@
+# Assignment: Week-3
+# Request-1: Python取得網路上的資料並儲存到檔案中 
+
 import urllib.request as request
 import json
 src = "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment.json"
@@ -7,9 +10,9 @@ attraction_list = data["result"]["results"]
 
 def file_split(file_string):
     # 以https做切割
-    all_file = file_string.split("https:") 
-    # 取回傳的list的第二個元素，並將前面的"https"加回去，並將"d_upload_ttn/sceneadmin/"去除
-    first_file = "https" + all_file[1].replace("d_upload_ttn/sceneadmin/", "")
+    all_file = file_string.split("https://") 
+    # 取回傳的list的第二個元素，並將前面的"https"加回去
+    first_file = "https://" + all_file[1]
     return first_file
 
 with open("data.csv", "w", encoding="utf-8") as file:
