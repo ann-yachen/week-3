@@ -11,7 +11,7 @@
     <header>
         <div class="logo">My Website</div>
         <nav>
-            <div class="nav-icon"><img src="icon_small.png" /></div>
+            <div class="nav-icon"><img src="icon_burger.png" /></div>
             <div class="nav-item">Item1</div>
             <div class="nav-item">Item2</div>
             <div class="nav-item">Item3</div>
@@ -22,7 +22,7 @@
         <div>Welcome to MyHome</div>
     </div>
     <main>
-        <div class="content">
+        <div class="content" id="content">
             <div class="content-top" id="content_top">
                 <!-- generate by js -->
             </div>
@@ -39,61 +39,80 @@
             return response.json();
         }).then(function(data){
             let attractionList = data["result"]["results"]; // get attraction list
-            
+
             /* function for getting 1st img url from "file" */
             function getFirstFile(fileData){
                 let fileList = fileData["file"].split("https://");
                 let firstFile = "https://" + fileList[1];
                 return firstFile;
             }
-
-            /* generate top content */
-            let content_top = document.querySelector("#content_top"); // select id for top content 
-            /* only 1st and 2nd content need to be added */
-            for(let i = 0; i < 2; i++){
-                /* create box, class="top-box" */
-                let boxElement = document.createElement("div");
-                boxElement.className = "top-box";
-
-                /* create img in box */
-                let boxImg = document.createElement("img");
-                boxImg.src = getFirstFile(attractionList[i]); // get img url from json
-                boxImg.className = "top-box-img";                
-                boxElement.appendChild(boxImg); // append img into box
-
-                /* create box title, class="box-title" */                
-                let boxTitle = document.createElement("div");
-                boxTitle.textContent = attractionList[i]["stitle"]; // get title from json
-                boxTitle.className = "box-title";
-                boxElement.appendChild(boxTitle); // append title into box
-                
-                /* add box into top content */ 
-                content_top.appendChild(boxElement);
+            
+            /* function for creating box */
+            function createBox(location){
+                let box = document.createElement("div");
+                box.className = location + "-box";
+                return box;
             }
 
-            /* generate bottom content */
-            let content_bottom = document.querySelector("#content_bottom"); // select id for bottom content
-            /* add content from 3rd to 10th */
-            for(let i = 2; i < 10; i++){
-                /* create box, class="bottom-box" */
-                let boxElement = document.createElement("div");
-                boxElement.className = "bottom-box";
+            /* function for creating img */
+            function createImg(location, i){
+                let img = document.createElement("img");
+                img.src = getFirstFile(attractionList[i]); // get img url from json
+                img.className = location + "-box-img";
+                return img;
+            }
 
-                /* create img in box, class = "bottom-box-img" for object-fit */
-                let boxImg = document.createElement("img");
-                boxImg.src = getFirstFile(attractionList[i]); // get img url from json
-                boxImg.className = "bottom-box-img";
-                boxElement.appendChild(boxImg); // append img into box
+            /* function for creating title-box */
+            function createBoxTitle(location, i){
+                let title = document.createElement("div");
+                title.textContent = attractionList[i]["stitle"]; // get title from json
+                title.className = "box-title";
+                return title;
+            }
 
-                /* create box title, class="box-title" */ 
-                let boxTitle = document.createElement("div");
-                boxTitle.textContent = attractionList[i]["stitle"]; // get title from json
-                boxTitle.className = "box-title";
-                boxElement.appendChild(boxTitle); // append title into box
+            /* function for creating content by js */ 
+            function createContent(id, startIndex, endIndex, location){
+                let content = document.querySelector("#" + id); // get which block for creating content
+                for (let i = startIndex; i < endIndex; i++){
+                    /* create box */
+                    let boxElement = createBox(location);
 
-                /* add box into bottom content */ 
-                content_bottom.appendChild(boxElement);
-            }            
+                    /* create img in box */
+                    let boxImg = createImg(location, i);            
+                    boxElement.appendChild(boxImg); // append img into box
+                    
+                    /* create box title */
+                    let boxTitle = createBoxTitle(location, i);
+                    boxElement.appendChild(boxTitle); // append title into box
+                    
+                    /* add box into content */ 
+                    content.appendChild(boxElement);                                                            
+                }
+            }
+
+            let content = document.querySelector("#content");
+            createContent("content_top", 0, 2, "top");
+            createContent("content_bottom", 2, 10, "bottom");
+
+            let button = document.createElement("div");
+            button.textContent = "Load More";
+            button.className = "button";
+            button.id = "load-more";
+            content.appendChild(button);
+
+            let currentIndex = 10;
+            function load(index){
+                if(index + 8 <= attractionList.length){
+                    createContent("content_bottom", index, index + 8, "bottom");
+                    currentIndex = index + 8;
+                }else{
+                    createContent("content_bottom", index, attractionList.length, "bottom");
+                    currentIndex = attractionList.length;
+                    loadMore.removeEventListener("click", function(){load(currentIndex)});
+                }
+            }
+            let loadMore = document.querySelector("#load-more");
+            loadMore.addEventListener("click", function(){load(currentIndex)});
         })
     </script>
 </body>

@@ -75,6 +75,13 @@ nav{
 .box-title{
     margin: 10px;
 }
+.button{
+    width: 75px;
+    border: 1px solid #ddcfc2;
+    margin: 10px; padding: 10px;
+    font-size: 16px;
+    text-align: center;
+}
 
 /* CSS media query */
 /* 600px < size <= 1200px */ 
