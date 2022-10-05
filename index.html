@@ -29,6 +29,7 @@
             <div class="content-bottom" id="content_bottom">
                 <!-- generate by js -->
             </div>
+            <div class="load-more-button" id="load-more">Load More</div>
         </div>
     </main>
     <script>
@@ -90,17 +91,14 @@
                 }
             }
 
-            let content = document.querySelector("#content");
+            /* generate top-content */
             createContent("content_top", 0, 2, "top");
+            /* generate bottom-content */
             createContent("content_bottom", 2, 10, "bottom");
-
-            let button = document.createElement("div");
-            button.textContent = "Load More";
-            button.className = "button";
-            button.id = "load-more";
-            content.appendChild(button);
-
-            let currentIndex = 10;
+            
+            let loadMore = document.querySelector("#load-more"); // get load-more button
+            let currentIndex = 10; // start from 10
+            /* function for load more */
             function load(index){
                 if(index + 8 <= attractionList.length){
                     createContent("content_bottom", index, index + 8, "bottom");
@@ -110,8 +108,8 @@
                     currentIndex = attractionList.length;
                     loadMore.removeEventListener("click", function(){load(currentIndex)});
                 }
-            }
-            let loadMore = document.querySelector("#load-more");
+            }           
+            /* add event by clicking button to load more */
             loadMore.addEventListener("click", function(){load(currentIndex)});
         })
     </script>
